@@ -11,11 +11,12 @@ app.use(bodyParser.json());
 
 //database url
 
-const mongoURL='mongodb+srv://kennedy:zxcvbnm12345@iconnect.x2n1uuq.mongodb.net/test';
+//const mongoURL='mongodb+srv://kennedy:zxcvbnm12345@iconnect.x2n1uuq.mongodb.net/test';
+const mongoURL='mongodb://0.0.0.0/flutter';
 
-//database schemas
 
-const users=require('./models/schema');
+//importing routes
+const router=require('./routes/route.router');
 
 //connecting to the database
 mongoose.connect(mongoURL)
@@ -32,19 +33,5 @@ mongoose.connect(mongoURL)
     console.log('mongoose error: ',err);
 });
 
-// application routes
-
-app.get('/',function(req,res){
-    res.json({mess:'server running'});
-});
-
-//post route
-
-app.post('/user',function(req,res){
-    const newUser= new users({
-        name:req.body.name,
-        age:req.body.age,
-        occupation:req.body.occupation,
-    });
-    newUser.save();
-});
+//routes as middleware
+app.use(router);
